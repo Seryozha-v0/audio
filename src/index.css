@@ -1,14 +1,46 @@
 :root {
-    --color: #e8e8e8
+    --backPlayer: #ededed;
+}
+
+.audioList {
+    padding: 10px 15px;
+}
+
+.audioList__item {
+    display: flex;
+}
+
+.audioList__desc {
+    margin-left: 10px;
+}
+
+.audioList__title, .audioList__artist {
+    margin: 0;
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+.audioList__title {
+    font-size: 20px;
+}
+.audioList__artist {
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .audioPlayer {
-    background-color: var(--color);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--backPlayer);
     padding: 10px 15px;
-    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .audioPlayer__info {
+    position: relative;
     display: flex;
 }
 

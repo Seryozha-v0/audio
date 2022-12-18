@@ -1,27 +1,22 @@
 import React from "react";
 
 import { useState, useEffect, useRef } from "react";
+import AudioControls from "./AudioControls";
+import AudioList from "./AudioList";
 
-const AudioPlayer = (( {musics} ) => {
-    const [musicIndex, setMusicIndex] = useState(0);
-    const [musicProgress, setMusicProgress] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(false);
+const AudioPlayer = (({
+    music,
+    isPlaying,
+    toPrevMusic,
+    toNextMusic,
+    setIsPlaying,
+    musicProgress,
+    onScrub,
+    onScrubEnd,
+    duration
+}) => {
+    const { title, artist, image } = music;
 
-    const { title, artist, image, audioSrc } = musics[musicIndex];
-
-    const audioRef = useRef(new Audio(audioSrc));
-    const interval = useRef();
-    const isReady = useRef(false);
-    
-    const { duration } = audioRef.current;
-
-    const toPrevTrack = () => {
-        console.log('Go to prev');
-    }
-
-    const toNextTrack = () => {
-        console.log('Go to next');
-    }
 
     return (
         <div className="audioPlayer">
@@ -34,7 +29,33 @@ const AudioPlayer = (( {musics} ) => {
                 <div className="audioPlayer__descr">
                     <h2 className="audioPlayer__title">{title}</h2>
                     <h3 className="audioPlayer__artist">{artist}</h3>
+                    {isPlaying ? (
+                        <div className="audioPlayer__time">
+                            <span> {Math.floor(duration / 60)} : {Math.floor(duration % 60)} </span>
+                            /
+                            <span> {Math.floor(musicProgress / 60)} : {Math.floor(musicProgress % 60)} </span>
+                        </div>
+                    ) : ''}
                 </div>
+
+                <AudioControls
+                    isPlaying={isPlaying}
+                    onPrevClick={toPrevMusic}
+                    onNextClick={toNextMusic}
+                    onPlayPauseClick={setIsPlaying}
+                />
+
+                <input
+                    type="range"
+                    value={musicProgress}
+                    step="1"
+                    min="0"
+                    max={duration ? duration : `${duration}`}
+                    className="audioPlayer__progress"
+                    onChange={(e) => onScrub(e.target.value)}
+                    onMouseUp={onScrubEnd}
+                    onKeyUp={onScrubEnd}
+                />
             </div>
         </div>
     )
